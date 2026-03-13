@@ -37,7 +37,7 @@ button {
   padding: 8px 16px;
   background: #007bff;
   color: #fff;
-  border: 2px solid #0056b3;
+  border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
@@ -57,16 +57,16 @@ nav {
 }
 
 nav button {
-  background: #f8f9fa;
+  background: #e0e1e3;
   color: #222;
-  border: 2px solid #bbb;
+  border: none;
   font-weight: bold;
 }
 
 nav button.active {
   background: #007bff;
   color: #fff;
-  border: 2px solid #0056b3;
+  border: none;
 }
 
 main ul {
@@ -94,13 +94,13 @@ main li {
   padding: 6px 14px;
   background: #28a745;
   color: #fff;
-  border: 2px solid #1e7e34;
+  border: none;
   font-weight: bold;
   text-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 .actions button:hover {
   background: #218838;
-  border-color: #155724;
+  /* border-color removed */
 }
 
 .modal-overlay {
@@ -146,7 +146,7 @@ main li {
   max-width: 100px;
   background-color: #007bff;
   color: #fff;
-  border: 2px solid #0056b3;
+  border: none;
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
@@ -161,7 +161,7 @@ main li {
 .close {
   background: #ccc !important;
   color: #222 !important;
-  border: 2px solid #888 !important;
+  border: none !important;
   font-weight: bold;
 }
 
@@ -169,6 +169,7 @@ main li {
   button {
     background: #007bff;
     color: #fff;
+    border: none;
   }
   button:hover {
     background: #0056b3;
@@ -176,18 +177,18 @@ main li {
   .close {
     background: #ccc !important;
     color: #222 !important;
-    border: 2px solid #888 !important;
+    border: none !important;
     font-weight: bold;
   }
   nav button {
-    background: #f8f9fa;
+    background: #e0e1e3;
     color: #222;
-    border: 2px solid #bbb;
+    border: none;
     font-weight: bold;
   }
   nav button.active {
     background: #007bff;
     color: #fff;
-    border: 2px solid #0056b3;
+    border: none;
   }
 }

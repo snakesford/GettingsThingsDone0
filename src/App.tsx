@@ -11,10 +11,9 @@ export interface Item {
 
 const sections = [
   { key: 'inbox', label: 'Inbox' },
-  { key: 'next', label: 'Next Actions' },
   { key: 'projects', label: 'Projects' },
   { key: 'calendar', label: 'Calendar' },
-  { key: 'waiting', label: 'Waiting For' },
+  { key: 'waiting', label: 'Waiting' },
   { key: 'reference', label: 'Reference' },
   { key: 'someday', label: 'Someday/Maybe' },
   { key: 'trash', label: 'Trash' },
@@ -53,7 +52,10 @@ function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => vo
           <h3>Process: {item.text}</h3>
           <p>Where should this go?</p>
           <div className="modal-buttons">
-            <button onClick={() => { setNonActionableDest('trash'); onMove('trash'); }}>Trash</button>
+            <button onClick={() => { setNonActionableDest('trash'); onMove('trash'); }}>
+              <img src="/images/bin.png" alt="Trash" style={{ width: 20, height: 20, verticalAlign: 'middle', marginRight: 6 }} />
+              Trash
+            </button>
             <button onClick={() => { setNonActionableDest('reference'); onMove('reference'); }}>Reference</button>
             <button onClick={() => { setNonActionableDest('someday'); onMove('someday'); }}>Someday</button>
           </div>
@@ -71,7 +73,7 @@ function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => vo
           <h3>Process: {item.text}</h3>
           <p>Can you do it in 2 minutes?</p>
           <div className="modal-buttons">
-            <button onClick={() => { setTwoMin(true); onMove('next'); }}>Yes (Do it!)</button>
+            <button onClick={() => { setTwoMin(true); onMove('calendar'); }}>Yes (Do it!)</button>
             <button onClick={() => { setTwoMin(false); setStep(2); }}>No</button>
           </div>
           <button className="close" onClick={onClose}>Cancel</button>
@@ -88,7 +90,7 @@ function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => vo
           <h3>Process: {item.text}</h3>
           <p>Does this require multiple steps (project)?</p>
           <div className="modal-buttons">
-            <button onClick={() => { setIsProject(true); onMove('projects'); }}>Yes (Project)</button>
+            <button onClick={() => { setIsProject(true); onMove('project'); }}>Yes (Project)</button>
             <button onClick={() => { setIsProject(false); setStep(3); }}>No</button>
           </div>
           <button className="close" onClick={onClose}>Cancel</button>
@@ -181,7 +183,12 @@ function App() {
             className={activeSection === section.key ? 'active' : ''}
             onClick={() => setActiveSection(section.key)}
           >
-            {section.label}
+            {section.key === 'trash' ? (
+              <>
+                <img src="/images/bin.png" alt="Trash" style={{ width: 18, height: 18, verticalAlign: 'middle', marginRight: 6 }} />
+                Trash
+              </>
+            ) : section.label}
           </button>
         ))}
       </nav>
@@ -196,7 +203,9 @@ function App() {
                 </div>
               )}
               {activeSection !== 'inbox' && activeSection !== 'trash' && (
-                <button onClick={() => moveItem(item.id, 'trash')}>Delete</button>
+                <button onClick={() => moveItem(item.id, 'trash')}>
+                  Delete
+                </button>
               )}
               {activeSection === 'trash' && (
                 <button onClick={() => deleteItem(item.id)}>Permanently Delete</button>

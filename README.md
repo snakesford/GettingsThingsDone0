@@ -6,7 +6,7 @@ A clean, simple productivity web app based on David Allen's Getting Things Done 
 
 - Capture raw inputs quickly
 - Process items through the GTD workflow
-- Organize into sections: Inbox, Next Actions, Projects, Calendar, Waiting For, Reference, Someday/Maybe, Trash
+- Organize into sections: Inbox, Next Actions, Projects, Calendar, Waiting, Reference, Someday/Maybe, Trash
 - Natural language date parsing for calendar items
 - Minimal, fast UI
 
