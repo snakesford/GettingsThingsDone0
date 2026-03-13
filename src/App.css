@@ -1,4 +1,3 @@
-/* Title above nav with Patrick Hand font */
 .processing-title {
   font-family: 'Patrick Hand', cursive;
   font-size: 4rem;
@@ -42,7 +41,13 @@
   right: 70%;
   display: flex;
   gap: 10px;
+  align-items: center;
   z-index: 11;
+}
+
+.processing-capture-row button.active {
+  background: #007bff;
+  color: #fff;
 }
 /* Add button with black text */
 .add-btn {
@@ -60,10 +65,6 @@
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-}
-
-header {
-  margin-bottom: 20px;
 }
 
 .capture {
@@ -113,6 +114,35 @@ nav button.active {
   background: #007bff;
   color: #fff;
   border: none;
+}
+
+.corner-nav {
+  pointer-events: none;
+}
+
+.corner-button {
+  position: fixed;
+  bottom: 24px;
+  z-index: 20;
+  min-width: 170px;
+  background: #e0e1e3;
+  color: #222;
+  border: none;
+  font-weight: bold;
+  pointer-events: auto;
+}
+
+.corner-button.bottom-left {
+  left: 24px;
+}
+
+.corner-button.bottom-right {
+  right: 24px;
+}
+
+.corner-button.active {
+  background: #007bff;
+  color: #fff;
 }
 
 main ul {
@@ -237,6 +267,22 @@ main li {
     color: #fff;
     border: none;
   }
+  .corner-button {
+    background: #e0e1e3;
+    color: #222;
+    border: none;
+    font-weight: bold;
+  }
+  .corner-button.active {
+    background: #007bff;
+    color: #fff;
+    border: none;
+  }
+  .processing-capture-row button.active {
+    background: #007bff;
+    color: #fff;
+    border: none;
+  }
   .processing-shortcuts button {
     background: #e0e1e3;
     color: #222;
@@ -247,5 +293,20 @@ main li {
     background: #007bff;
     color: #fff;
     border: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .corner-button {
+    bottom: 16px;
+    min-width: 140px;
+  }
+
+  .corner-button.bottom-left {
+    left: 16px;
+  }
+
+  .corner-button.bottom-right {
+    right: 16px;
   }
 }

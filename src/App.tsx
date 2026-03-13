@@ -16,6 +16,15 @@ const sections = [
   { key: 'waiting', label: 'Waiting' },
 ] as const;
 
+const primarySections = sections.filter(
+  (section) => section.key !== 'inbox' && section.key !== 'calendar' && section.key !== 'waiting'
+);
+
+const cornerSections = [
+  { key: 'calendar', label: 'Calendar', className: 'bottom-left' },
+  { key: 'waiting', label: 'Waiting', className: 'bottom-right' },
+] as const;
+
 const quickAccessSections = [
   { key: 'trash', label: 'Trash' },
   { key: 'reference', label: 'Reference' },
@@ -183,6 +192,12 @@ function App() {
         ))}
       </div>
       <div className="processing-capture-row">
+        <button
+          className={activeSection === 'inbox' ? 'active' : ''}
+          onClick={() => setActiveSection('inbox')}
+        >
+          Inbox
+        </button>
         <input
           type="text"
           value={newItemText}
@@ -192,11 +207,8 @@ function App() {
         />
         <button className="add-btn" onClick={addItem}>Add</button>
       </div>
-      <header>
-        <h1>Getting Things Done</h1>
-      </header>
       <nav>
-        {sections.map(section => (
+        {primarySections.map(section => (
           <button
             key={section.key}
             className={activeSection === section.key ? 'active' : ''}
@@ -206,6 +218,17 @@ function App() {
           </button>
         ))}
       </nav>
+      <div className="corner-nav">
+        {cornerSections.map(section => (
+          <button
+            key={section.key}
+            className={`corner-button ${section.className} ${activeSection === section.key ? 'active' : ''}`}
+            onClick={() => setActiveSection(section.key)}
+          >
+            {section.label}
+          </button>
+        ))}
+      </div>
       <main>
         <ul>
           {filteredItems.map(item => (
