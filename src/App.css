@@ -1,3 +1,49 @@
+/* Title above nav with Patrick Hand font */
+.processing-title {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 4rem;
+  color: #333;
+  position: absolute;
+  top: 100px;
+  right: 5%;
+  transform: rotate(5deg);
+  margin: 0;
+  text-align: right;
+  z-index: 10;
+}
+
+.processing-shortcuts {
+  position: absolute;
+  top: 215px;
+  right: 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  z-index: 10;
+}
+
+.processing-shortcuts button {
+  background: #e0e1e3;
+  color: #222;
+  border: none;
+  font-weight: bold;
+  min-width: 170px;
+}
+
+.processing-shortcuts button.active {
+  background: #007bff;
+  color: #fff;
+}
+
+.processing-capture-row {
+  position: absolute;
+  top: 180px;
+  right: 70%;
+  display: flex;
+  gap: 10px;
+  z-index: 11;
+}
 /* Add button with black text */
 .add-btn {
   color: #111 !important;
@@ -187,6 +233,17 @@ main li {
     font-weight: bold;
   }
   nav button.active {
+    background: #007bff;
+    color: #fff;
+    border: none;
+  }
+  .processing-shortcuts button {
+    background: #e0e1e3;
+    color: #222;
+    border: none;
+    font-weight: bold;
+  }
+  .processing-shortcuts button.active {
     background: #007bff;
     color: #fff;
     border: none;

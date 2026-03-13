@@ -11,21 +11,21 @@ export interface Item {
 
 const sections = [
   { key: 'inbox', label: 'Inbox' },
-  { key: 'projects', label: 'Projects' },
+  { key: 'project', label: 'Projects' },
   { key: 'calendar', label: 'Calendar' },
   { key: 'waiting', label: 'Waiting' },
+] as const;
+
+const quickAccessSections = [
+  { key: 'trash', label: 'Trash' },
   { key: 'reference', label: 'Reference' },
   { key: 'someday', label: 'Someday/Maybe' },
-  { key: 'trash', label: 'Trash' },
 ] as const;
+
+type SectionKey = Item['status'];
 
 function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => void; onMove: (status: Item['status']) => void }) {
   const [step, setStep] = useState(0);
-  const [actionable, setActionable] = useState<null | boolean>(null);
-  const [twoMin, setTwoMin] = useState<null | boolean>(null);
-  const [isProject, setIsProject] = useState<null | boolean>(null);
-  const [deferOrDelegate, setDeferOrDelegate] = useState<null | 'defer' | 'delegate'>(null);
-  const [nonActionableDest, setNonActionableDest] = useState<null | 'trash' | 'reference' | 'someday'>(null);
 
   // Step 0: Is it actionable?
   if (step === 0) {
@@ -35,8 +35,8 @@ function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => vo
           <h3>Process: {item.text}</h3>
           <p>Is this item actionable?</p>
           <div className="modal-buttons">
-            <button onClick={() => { setActionable(true); setStep(1); }}>Yes</button>
-            <button onClick={() => { setActionable(false); setStep(99); }}>No</button>
+            <button onClick={() => { setStep(1); }}>Yes</button>
+            <button onClick={() => { setStep(99); }}>No</button>
           </div>
           <button className="close" onClick={onClose}>Cancel</button>
         </div>
@@ -52,12 +52,12 @@ function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => vo
           <h3>Process: {item.text}</h3>
           <p>Where should this go?</p>
           <div className="modal-buttons">
-            <button onClick={() => { setNonActionableDest('trash'); onMove('trash'); }}>
+            <button onClick={() => { onMove('trash'); }}>
               <img src="/images/bin.png" alt="Trash" style={{ width: 20, height: 20, verticalAlign: 'middle', marginRight: 6 }} />
               Trash
             </button>
-            <button onClick={() => { setNonActionableDest('reference'); onMove('reference'); }}>Reference</button>
-            <button onClick={() => { setNonActionableDest('someday'); onMove('someday'); }}>Someday</button>
+            <button onClick={() => { onMove('reference'); }}>Reference</button>
+            <button onClick={() => { onMove('someday'); }}>Someday</button>
           </div>
           <button className="close" onClick={onClose}>Cancel</button>
         </div>
@@ -73,8 +73,8 @@ function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => vo
           <h3>Process: {item.text}</h3>
           <p>Can you do it in 2 minutes?</p>
           <div className="modal-buttons">
-            <button onClick={() => { setTwoMin(true); onMove('calendar'); }}>Yes (Do it!)</button>
-            <button onClick={() => { setTwoMin(false); setStep(2); }}>No</button>
+            <button onClick={() => { onMove('calendar'); }}>Yes (Do it!)</button>
+            <button onClick={() => { setStep(2); }}>No</button>
           </div>
           <button className="close" onClick={onClose}>Cancel</button>
         </div>
@@ -90,8 +90,8 @@ function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => vo
           <h3>Process: {item.text}</h3>
           <p>Does this require multiple steps (project)?</p>
           <div className="modal-buttons">
-            <button onClick={() => { setIsProject(true); onMove('project'); }}>Yes (Project)</button>
-            <button onClick={() => { setIsProject(false); setStep(3); }}>No</button>
+            <button onClick={() => { onMove('project'); }}>Yes (Project)</button>
+            <button onClick={() => { setStep(3); }}>No</button>
           </div>
           <button className="close" onClick={onClose}>Cancel</button>
         </div>
@@ -107,8 +107,8 @@ function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => vo
           <h3>Process: {item.text}</h3>
           <p>What should you do with it?</p>
           <div className="modal-buttons">
-            <button onClick={() => { setDeferOrDelegate('defer'); onMove('calendar'); }}>Defer (Set a date)</button>
-            <button onClick={() => { setDeferOrDelegate('delegate'); onMove('waiting'); }}>Delegate (Waiting)</button>
+            <button onClick={() => { onMove('calendar'); }}>Defer (Set a date)</button>
+            <button onClick={() => { onMove('waiting'); }}>Delegate (Waiting)</button>
           </div>
           <button className="close" onClick={onClose}>Cancel</button>
         </div>
@@ -122,7 +122,7 @@ function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => vo
 function App() {
   const [items, setItems] = useState<Item[]>([]);
   const [newItemText, setNewItemText] = useState('');
-  const [activeSection, setActiveSection] = useState('inbox');
+  const [activeSection, setActiveSection] = useState<SectionKey>('inbox');
   const [processingItem, setProcessingItem] = useState<Item | null>(null);
 
   useEffect(() => {
@@ -163,21 +163,11 @@ function App() {
 
   return (
     <div className="app">
-      <header>
-        <h1>Getting Things Done</h1>
-        <div className="capture">
-          <input
-            type="text"
-            value={newItemText}
-            onChange={(e) => setNewItemText(e.target.value)}
-            placeholder="Capture new item..."
-            onKeyPress={(e) => e.key === 'Enter' && addItem()}
-          />
-          <button className="add-btn" onClick={addItem}>Add</button>
-        </div>
-      </header>
-      <nav>
-        {sections.map(section => (
+      <div className="processing-title">
+        <span style={{ background: '#ffe600', borderRadius: '0.3em', padding: '0 0.2em' }}>PROCESSiNG</span> YOUR TASKS
+      </div>
+      <div className="processing-shortcuts">
+        {quickAccessSections.map(section => (
           <button
             key={section.key}
             className={activeSection === section.key ? 'active' : ''}
@@ -189,6 +179,30 @@ function App() {
                 Trash
               </>
             ) : section.label}
+          </button>
+        ))}
+      </div>
+      <div className="processing-capture-row">
+        <input
+          type="text"
+          value={newItemText}
+          onChange={(e) => setNewItemText(e.target.value)}
+          placeholder="Capture new item..."
+          onKeyPress={(e) => e.key === 'Enter' && addItem()}
+        />
+        <button className="add-btn" onClick={addItem}>Add</button>
+      </div>
+      <header>
+        <h1>Getting Things Done</h1>
+      </header>
+      <nav>
+        {sections.map(section => (
+          <button
+            key={section.key}
+            className={activeSection === section.key ? 'active' : ''}
+            onClick={() => setActiveSection(section.key)}
+          >
+            {section.label}
           </button>
         ))}
       </nav>
