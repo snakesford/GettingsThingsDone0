@@ -1,5 +1,5 @@
 .app-shell {
-  width: min(980px, calc(100vw - 24px));
+  width: min(676px, calc(100vw - 24px));
   margin: 0 auto;
   padding: 20px 0 32px;
 }
@@ -167,7 +167,7 @@
 .capture-panel {
   margin-top: 10px;
   margin-left: 8px;
-  width: 240px;
+  width: 205px;
 }
 
 .capture-label,
@@ -186,26 +186,13 @@
 }
 
 .capture-row input {
-  flex: 1;
-  min-width: 0;
+  width: 100%;
   border: 3px solid #222;
   border-radius: 8px;
   padding: 12px 14px;
   background: #fbfbfb;
   color: #111;
   font: 600 0.98rem/1.2 'Trebuchet MS', 'Arial Rounded MT Bold', sans-serif;
-}
-
-.task-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #eba805;
-  color: #fff;
-  border: 0;
-  border-radius: 6px;
-  padding: 12px 15px;
-  font: 700 1rem/1 'Trebuchet MS', 'Arial Rounded MT Bold', sans-serif;
 }
 
 .task-plus {
@@ -215,14 +202,14 @@
 
 .processing-title {
   position: absolute;
-  top: 94px;
-  left: 246px;
+  top: 86px;
+  left: 244px;
   z-index: 4;
   margin: 0;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: clamp(2.7rem, 5vw, 4.5rem);
+  font-size: 3.4rem;
   font-weight: 900;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   color: #2f2f36;
   text-transform: lowercase;
   transform: rotate(5deg);
@@ -293,36 +280,36 @@
 }
 
 .project-node {
-  top: 397px;
-  left: 22px;
+  top: 389px;
+  left: 20px;
   width: 171px;
   height: 42px;
 }
 
 .trash-node {
-  top: 198px;
+  top: 202px;
   left: 513px;
   width: 99px;
   height: 44px;
 }
 
 .reference-node {
-  top: 264px;
-  left: 500px;
+  top: 270px;
+  left: 493px;
   width: 136px;
   height: 44px;
 }
 
 .someday-node {
-  top: 330px;
-  left: 514px;
+  top: 335px;
+  left: 513px;
   width: 126px;
   height: 44px;
 }
 
 .defer-node {
-  top: 615px;
-  left: 350px;
+  top: 620px;
+  left: 348px;
   width: 123px;
   height: 42px;
   background: #0f7cc1;
@@ -330,31 +317,41 @@
 }
 
 .delegate-node {
-  top: 615px;
-  left: 484px;
+  top: 620px;
+  left: 482px;
   width: 149px;
   height: 42px;
   background: #0f7cc1;
   color: #fff;
 }
 
+.task-node {
+  top: 554px;
+  left: 398px;
+  width: 92px;
+  height: 44px;
+  gap: 8px;
+  background: #eba805;
+  color: #fff;
+}
+
 .calendar-node {
-  top: 704px;
-  left: 94px;
+  top: 700px;
+  left: 92px;
   width: 137px;
   height: 45px;
 }
 
 .hotlist-node {
-  top: 770px;
+  top: 766px;
   left: 72px;
   width: 108px;
   height: 45px;
 }
 
 .waiting-node {
-  top: 772px;
-  left: 450px;
+  top: 771px;
+  left: 446px;
   width: 111px;
   height: 45px;
 }
@@ -426,17 +423,17 @@
 }
 
 .set-date-note {
-  top: 705px;
-  left: 269px;
+  top: 707px;
+  left: 266px;
 }
 
 .do-next-note {
   top: 772px;
-  left: 226px;
+  left: 222px;
 }
 
 .cant-do-note {
-  top: 710px;
+  top: 709px;
   left: 548px;
 }
 

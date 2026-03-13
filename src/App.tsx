@@ -233,10 +233,6 @@ function App() {
                 }}
                 placeholder="Add to inbox..."
               />
-              <button type="button" className="task-button" onClick={addItem}>
-                <span className="task-plus">+</span>
-                Task
-              </button>
             </div>
           </div>
         </div>
@@ -301,6 +297,11 @@ function App() {
           onClick={() => setActiveSection('next')}
         >
           DO IT!
+        </button>
+
+        <button type="button" className="flow-node task-node" onClick={addItem}>
+          <span className="task-plus">+</span>
+          Task
         </button>
 
         <button
