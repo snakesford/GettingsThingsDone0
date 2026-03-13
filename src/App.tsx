@@ -176,35 +176,45 @@ function App() {
       <section className="flowchart-card">
         <svg className="flow-lines" viewBox="0 0 676 843" aria-hidden="true">
           <defs>
-            <marker id="arrow-blue" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f79bf" />
+            <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#0f79bf" />
             </marker>
           </defs>
-          <path d="M108 132 L108 210 Q108 220 118 220 L180 220" />
-          <path d="M316 224 L372 224" />
-          <path d="M465 224 L505 224" markerEnd="url(#arrow-blue)" />
-          <path d="M430 228 L430 292 L485 292" markerEnd="url(#arrow-blue)" />
-          <path d="M430 228 L430 357 L505 357" markerEnd="url(#arrow-blue)" />
-          <path d="M273 248 L273 334" />
-          <path d="M188 356 L79 356 L71 365 L71 410 L197 410" markerEnd="url(#arrow-blue)" />
-          <path d="M327 357 L511 357" markerEnd="url(#arrow-blue)" />
-          <path d="M274 400 L274 503" />
-          <path d="M251 580 L125 580" markerEnd="url(#arrow-blue)" />
-          <path d="M291 579 L402 579" />
-          <path d="M443 602 L443 653" />
-          <path d="M538 579 L538 749" markerEnd="url(#arrow-blue)" />
-          <path d="M444 683 L444 725 Q444 730 439 730 L244 730" markerEnd="url(#arrow-blue)" />
-          <path d="M332 731 L332 791 Q332 795 327 795 L163 795" markerEnd="url(#arrow-blue)" />
-          <path d="M284 520 L284 568 Q284 579 273 579" />
-          <path d="M205 412 L241 412 Q249 412 249 404 L249 368" />
+          {/* Bucket edge targets from current CSS: project (192,422), trash (509,231), reference (499,300), someday (512,362), calendar (225,730.5), hotlist (178,796.5), waiting (458,797.5). */}
+          <path d="M108 132 L108 221.5 Q108 221.5 118 221.5 L184 221.5" markerEnd="url(#arrow-blue)" />
+          <path d="M344 221.5 L365 221.5" />
+          <path d="M411 221.5 L458 221.5 L458 231 L509 231" markerEnd="url(#arrow-blue)" />
+          <path d="M388 255 L388 300 L499 300" markerEnd="url(#arrow-blue)" />
+          <path d="M388 255 L388 362 L512 362" markerEnd="url(#arrow-blue)" />
+          <path d="M264 245 L264 330" markerEnd="url(#arrow-blue)" />
+          <path d="M204 352.5 L72 352.5 L72 422 L192 422" markerEnd="url(#arrow-blue)" />
+          <path d="M324 352.5 L420 352.5 L420 362 L512 362" markerEnd="url(#arrow-blue)" />
+          <path d="M264 375 L264 450 L314 450 L314 475" markerEnd="url(#arrow-blue)" />
+          <path d="M192 583 L125 583" markerEnd="url(#arrow-blue)" />
+          <path d="M365 583 L382 583 L382 576 L398 576" markerEnd="url(#arrow-blue)" />
+          <path d="M444 598 L444 610 L408.5 610 L408.5 620" markerEnd="url(#arrow-blue)" />
+          <path d="M444 598 L444 610 L556 610 L556 620" markerEnd="url(#arrow-blue)" />
+          <path d="M408.5 662 L408.5 730.5 L225 730.5" markerEnd="url(#arrow-blue)" />
+          <path d="M381 662 L381 796.5 L178 796.5" markerEnd="url(#arrow-blue)" />
+          <path d="M556 662 L556 797.5 L458 797.5" markerEnd="url(#arrow-blue)" />
         </svg>
 
         <div className="desk-clutter" aria-hidden="true">
+          <span className="desk-doodle doodle-hook" />
+          <span className="desk-doodle doodle-loop" />
           <span className="paper paper-yellow" />
           <span className="paper paper-blue" />
           <span className="paper paper-white" />
           <span className="paper paper-pink" />
           <span className="paper paper-grid" />
+          <span className="desk-card desk-phone">
+            <span className="phone-screen" />
+            <span className="phone-button" />
+          </span>
+          <span className="desk-card desk-social">
+            <span className="social-f">f</span>
+          </span>
+          <span className="desk-card desk-inbox">INBOX</span>
           <span className="clip clip-a" />
           <span className="clip clip-b" />
         </div>
@@ -238,7 +248,7 @@ function App() {
         </div>
 
         <h1 className="processing-title">
-          <span>PROCESSING</span> your tasks
+          <span>PROCESSiNG</span> your tasks
         </h1>
 
         <button type="button" className="flow-node prompt actionable">
@@ -252,7 +262,8 @@ function App() {
           className={`flow-node section-node project-node ${activeSection === 'project' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('project')}
         >
-          Project Planning
+          <span className="node-icon icon-list" aria-hidden="true" />
+          <span>Project Planning</span>
         </button>
 
         <button type="button" className="flow-node prompt process-node">
@@ -264,7 +275,8 @@ function App() {
           className={`flow-node section-node trash-node ${activeSection === 'trash' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('trash')}
         >
-          Trash
+          <span className="node-icon icon-trash" aria-hidden="true" />
+          <span>Trash</span>
         </button>
 
         <button
@@ -272,7 +284,8 @@ function App() {
           className={`flow-node section-node reference-node ${activeSection === 'reference' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('reference')}
         >
-          Reference
+          <span className="node-icon icon-clock icon-clock--outlined" aria-hidden="true" />
+          <span>Reference</span>
         </button>
 
         <button
@@ -280,7 +293,8 @@ function App() {
           className={`flow-node section-node someday-node ${activeSection === 'someday' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('someday')}
         >
-          Someday
+          <span className="node-icon icon-flag" aria-hidden="true" />
+          <span>Someday</span>
         </button>
 
         <span className="note maybe-note">Eh, maybe later.</span>
@@ -296,7 +310,7 @@ function App() {
           className={`do-it-sticker ${activeSection === 'next' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('next')}
         >
-          DO IT!
+          DO iT!
         </button>
 
         <button type="button" className="flow-node task-node" onClick={addItem}>
@@ -309,7 +323,8 @@ function App() {
           className={`flow-node section-node defer-node ${activeSection === 'calendar' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('calendar')}
         >
-          Defer it.
+          <span className="node-icon icon-clock" aria-hidden="true" />
+          <span>Defer it.</span>
         </button>
 
         <button
@@ -317,7 +332,8 @@ function App() {
           className={`flow-node section-node delegate-node ${activeSection === 'waiting' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('waiting')}
         >
-          Delegate it.
+          <span className="node-icon icon-people" aria-hidden="true" />
+          <span>Delegate it.</span>
         </button>
 
         <button
@@ -325,7 +341,8 @@ function App() {
           className={`flow-node section-node calendar-node ${activeSection === 'calendar' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('calendar')}
         >
-          Calendar
+          <span className="node-icon icon-calendar" aria-hidden="true" />
+          <span>Calendar</span>
         </button>
 
         <button
@@ -333,7 +350,8 @@ function App() {
           className={`flow-node section-node hotlist-node ${activeSection === 'next' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('next')}
         >
-          Hotlist
+          <span className="node-icon icon-fire" aria-hidden="true" />
+          <span>Hotlist</span>
         </button>
 
         <button
@@ -341,7 +359,8 @@ function App() {
           className={`flow-node section-node waiting-node ${activeSection === 'waiting' ? 'is-active' : ''}`}
           onClick={() => setActiveSection('waiting')}
         >
-          Waiting
+          <span className="node-icon icon-clock icon-clock--outlined" aria-hidden="true" />
+          <span>Waiting</span>
         </button>
 
         <span className="note set-date-note">Set a date.</span>
