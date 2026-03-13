@@ -169,6 +169,7 @@ function App() {
           onClose={() => setProcessingItem(null)}
           onMove={(status) => {
             moveItem(processingItem.id, status);
+            setActiveSection(status); // Switch to the new section after sorting
             setProcessingItem(null);
           }}
         />
