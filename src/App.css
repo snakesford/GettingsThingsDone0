@@ -307,23 +307,22 @@
 
 .processing-title {
   position: absolute;
-  top: 80px;
-  left: 238px;
+  top: 84px;
+  left: 244px;
   z-index: 5;
   margin: 0;
   color: #33343a;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 3.6rem;
+  font-size: 3.45rem;
   font-weight: 900;
   letter-spacing: 0.01em;
-  text-transform: lowercase;
-  transform: rotate(5deg);
+  transform: rotate(4deg);
 }
 
 .processing-title span {
   display: inline-block;
-  margin-right: 12px;
-  padding: 3px 10px 0;
+  margin-right: 10px;
+  padding: 4px 10px 0;
   background: #f0ea11;
   color: #22306c;
 }

@@ -180,7 +180,6 @@ function App() {
               <polygon points="0 0, 10 3.5, 0 7" fill="#0f79bf" />
             </marker>
           </defs>
-          {/* Bucket edge targets from current CSS: project (192,422), trash (509,231), reference (499,300), someday (512,362), calendar (225,730.5), hotlist (178,796.5), waiting (458,797.5). */}
           <path d="M108 132 L108 221.5 Q108 221.5 118 221.5 L184 221.5" markerEnd="url(#arrow-blue)" />
           <path d="M344 221.5 L365 221.5" />
           <path d="M411 221.5 L458 221.5 L458 231 L509 231" markerEnd="url(#arrow-blue)" />
