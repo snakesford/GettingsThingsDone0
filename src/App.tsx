@@ -22,57 +22,99 @@ const sections = [
 
 function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => void; onMove: (status: Item['status']) => void }) {
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<{ [key: string]: boolean }>({});
+  const [actionable, setActionable] = useState<null | boolean>(null);
+  const [twoMin, setTwoMin] = useState<null | boolean>(null);
+  const [isProject, setIsProject] = useState<null | boolean>(null);
+  const [deferOrDelegate, setDeferOrDelegate] = useState<null | 'defer' | 'delegate'>(null);
+  const [nonActionableDest, setNonActionableDest] = useState<null | 'trash' | 'reference' | 'someday'>(null);
 
-  const questions = [
-    { question: "Is this item actionable?", options: ["Yes", "No"] },
-    { question: "Does this require multiple steps?", options: ["Yes", "No"] },
-    { question: "Is this delegated to someone else?", options: ["Yes", "No"] },
-    { question: "Does this have a specific date/time?", options: ["Yes", "No"] },
-  ];
-
-  const handleAnswer = (answer: boolean) => {
-    setAnswers({ ...answers, [step]: answer });
-    if (step < questions.length - 1) {
-      setStep(step + 1);
-    } else {
-      // Determine final status
-      const { 0: actionable, 1: multiple, 2: delegated, 3: dated } = answers;
-      let status: Item['status'] = 'inbox';
-      if (!actionable) {
-        status = 'reference'; // or someday/trash, but default to reference
-      } else if (delegated) {
-        status = 'waiting';
-      } else if (dated) {
-        status = 'calendar';
-      } else if (multiple) {
-        status = 'project';
-      } else {
-        status = 'next';
-      }
-      onMove(status);
-      onClose();
-    }
-  };
-
-  const currentQuestion = questions[step];
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <h3>Process: {item.text}</h3>
-        <p>{currentQuestion.question}</p>
-        <div className="modal-buttons">
-          {currentQuestion.options.map((option, index) => (
-            <button key={option} onClick={() => handleAnswer(index === 0)}>
-              {option}
-            </button>
-          ))}
+  // Step 0: Is it actionable?
+  if (step === 0) {
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal" onClick={e => e.stopPropagation()}>
+          <h3>Process: {item.text}</h3>
+          <p>Is this item actionable?</p>
+          <div className="modal-buttons">
+            <button onClick={() => { setActionable(true); setStep(1); }}>Yes</button>
+            <button onClick={() => { setActionable(false); setStep(99); }}>No</button>
+          </div>
+          <button className="close" onClick={onClose}>Cancel</button>
         </div>
-        <button className="close" onClick={onClose}>Cancel</button>
       </div>
-    </div>
-  );
+    );
+  }
+
+  // Step 99: Not actionable - choose destination
+  if (step === 99) {
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal" onClick={e => e.stopPropagation()}>
+          <h3>Process: {item.text}</h3>
+          <p>Where should this go?</p>
+          <div className="modal-buttons">
+            <button onClick={() => { setNonActionableDest('trash'); onMove('trash'); }}>Trash</button>
+            <button onClick={() => { setNonActionableDest('reference'); onMove('reference'); }}>Reference</button>
+            <button onClick={() => { setNonActionableDest('someday'); onMove('someday'); }}>Someday</button>
+          </div>
+          <button className="close" onClick={onClose}>Cancel</button>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 1: Can you do it in 2 minutes?
+  if (step === 1) {
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal" onClick={e => e.stopPropagation()}>
+          <h3>Process: {item.text}</h3>
+          <p>Can you do it in 2 minutes?</p>
+          <div className="modal-buttons">
+            <button onClick={() => { setTwoMin(true); onMove('next'); }}>Yes (Do it!)</button>
+            <button onClick={() => { setTwoMin(false); setStep(2); }}>No</button>
+          </div>
+          <button className="close" onClick={onClose}>Cancel</button>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 2: Is it a project (requires multiple steps)?
+  if (step === 2) {
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal" onClick={e => e.stopPropagation()}>
+          <h3>Process: {item.text}</h3>
+          <p>Does this require multiple steps (project)?</p>
+          <div className="modal-buttons">
+            <button onClick={() => { setIsProject(true); onMove('projects'); }}>Yes (Project)</button>
+            <button onClick={() => { setIsProject(false); setStep(3); }}>No</button>
+          </div>
+          <button className="close" onClick={onClose}>Cancel</button>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 3: Defer or Delegate
+  if (step === 3) {
+    return (
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal" onClick={e => e.stopPropagation()}>
+          <h3>Process: {item.text}</h3>
+          <p>What should you do with it?</p>
+          <div className="modal-buttons">
+            <button onClick={() => { setDeferOrDelegate('defer'); onMove('calendar'); }}>Defer (Set a date)</button>
+            <button onClick={() => { setDeferOrDelegate('delegate'); onMove('waiting'); }}>Delegate (Waiting)</button>
+          </div>
+          <button className="close" onClick={onClose}>Cancel</button>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
 }
 
 function App() {
