@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import './App.css';
 
 export interface Item {
   id: string;
@@ -21,10 +20,66 @@ const sections = [
   { key: 'trash', label: 'Trash' },
 ] as const;
 
+function ProcessModal({ item, onClose, onMove }: { item: Item; onClose: () => void; onMove: (status: Item['status']) => void }) {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<{ [key: string]: boolean }>({});
+
+  const questions = [
+    { question: "Is this item actionable?", options: ["Yes", "No"] },
+    { question: "Does this require multiple steps?", options: ["Yes", "No"] },
+    { question: "Is this delegated to someone else?", options: ["Yes", "No"] },
+    { question: "Does this have a specific date/time?", options: ["Yes", "No"] },
+  ];
+
+  const handleAnswer = (answer: boolean) => {
+    setAnswers({ ...answers, [step]: answer });
+    if (step < questions.length - 1) {
+      setStep(step + 1);
+    } else {
+      // Determine final status
+      const { 0: actionable, 1: multiple, 2: delegated, 3: dated } = answers;
+      let status: Item['status'] = 'inbox';
+      if (!actionable) {
+        status = 'reference'; // or someday/trash, but default to reference
+      } else if (delegated) {
+        status = 'waiting';
+      } else if (dated) {
+        status = 'calendar';
+      } else if (multiple) {
+        status = 'project';
+      } else {
+        status = 'next';
+      }
+      onMove(status);
+      onClose();
+    }
+  };
+
+  const currentQuestion = questions[step];
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <h3>Process: {item.text}</h3>
+        <p>{currentQuestion.question}</p>
+        <div className="modal-buttons">
+          {currentQuestion.options.map((option, index) => (
+            <button key={option} onClick={() => handleAnswer(index === 0)}>
+              {option}
+            </button>
+          ))}
+        </div>
+        <button className="close" onClick={onClose}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [items, setItems] = useState<Item[]>([]);
   const [newItemText, setNewItemText] = useState('');
   const [activeSection, setActiveSection] = useState('inbox');
+  const [processingItem, setProcessingItem] = useState<Item | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem('gtd-items');
@@ -74,7 +129,7 @@ function App() {
             placeholder="Capture new item..."
             onKeyPress={(e) => e.key === 'Enter' && addItem()}
           />
-          <button onClick={addItem}>Add</button>
+          <button className="add-btn" onClick={addItem}>Add</button>
         </div>
       </header>
       <nav>
@@ -95,13 +150,7 @@ function App() {
               <span>{item.text}</span>
               {activeSection === 'inbox' && (
                 <div className="actions">
-                  <button onClick={() => moveItem(item.id, 'next')}>Next Action</button>
-                  <button onClick={() => moveItem(item.id, 'project')}>Project</button>
-                  <button onClick={() => moveItem(item.id, 'calendar')}>Calendar</button>
-                  <button onClick={() => moveItem(item.id, 'waiting')}>Waiting</button>
-                  <button onClick={() => moveItem(item.id, 'reference')}>Reference</button>
-                  <button onClick={() => moveItem(item.id, 'someday')}>Someday</button>
-                  <button onClick={() => moveItem(item.id, 'trash')}>Trash</button>
+                  <button onClick={() => setProcessingItem(item)}>Process</button>
                 </div>
               )}
               {activeSection !== 'inbox' && activeSection !== 'trash' && (
@@ -114,6 +163,16 @@ function App() {
           ))}
         </ul>
       </main>
+      {processingItem && (
+        <ProcessModal
+          item={processingItem}
+          onClose={() => setProcessingItem(null)}
+          onMove={(status) => {
+            moveItem(processingItem.id, status);
+            setProcessingItem(null);
+          }}
+        />
+      )}
     </div>
   );
 }

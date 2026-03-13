@@ -1,3 +1,14 @@
+/* Add button with black text */
+.add-btn {
+  color: #111 !important;
+  background: #ffe600;
+  border: 2px solid #bfa800;
+  font-weight: bold;
+}
+.add-btn:hover {
+  background: #ffe600cc;
+  border-color: #bfa800;
+}
 .app {
   max-width: 800px;
   margin: 0 auto;
@@ -25,10 +36,13 @@ input {
 button {
   padding: 8px 16px;
   background: #007bff;
-  color: white;
-  border: none;
+  color: #fff;
+  border: 2px solid #0056b3;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: background 0.2s, color 0.2s, border 0.2s;
 }
 
 button:hover {
@@ -44,12 +58,15 @@ nav {
 
 nav button {
   background: #f8f9fa;
-  color: #333;
+  color: #222;
+  border: 2px solid #bbb;
+  font-weight: bold;
 }
 
 nav button.active {
   background: #007bff;
-  color: white;
+  color: #fff;
+  border: 2px solid #0056b3;
 }
 
 main ul {
@@ -73,6 +90,104 @@ main li {
 }
 
 .actions button {
-  font-size: 0.8em;
-  padding: 4px 8px;
+  font-size: 0.9em;
+  padding: 6px 14px;
+  background: #28a745;
+  color: #fff;
+  border: 2px solid #1e7e34;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.actions button:hover {
+  background: #218838;
+  border-color: #155724;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.modal h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.modal p {
+  font-size: 1.1em;
+  margin: 20px 0;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  max-width: 100px;
+  background-color: #007bff;
+  color: #fff;
+  border: 2px solid #0056b3;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+.modal-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.close {
+  background: #ccc !important;
+  color: #222 !important;
+  border: 2px solid #888 !important;
+  font-weight: bold;
+}
+
+@media (prefers-color-scheme: light) {
+  button {
+    background: #007bff;
+    color: #fff;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+  .close {
+    background: #ccc !important;
+    color: #222 !important;
+    border: 2px solid #888 !important;
+    font-weight: bold;
+  }
+  nav button {
+    background: #f8f9fa;
+    color: #222;
+    border: 2px solid #bbb;
+    font-weight: bold;
+  }
+  nav button.active {
+    background: #007bff;
+    color: #fff;
+    border: 2px solid #0056b3;
+  }
 }
