@@ -191,21 +191,45 @@ function App() {
           </button>
         ))}
       </div>
-      <div className="processing-capture-row">
+      <div className="left-panel">
         <button
-          className={activeSection === 'inbox' ? 'active' : ''}
+          className={`inbox-button ${activeSection === 'inbox' ? 'active' : ''}`}
           onClick={() => setActiveSection('inbox')}
         >
           Inbox
         </button>
-        <input
-          type="text"
-          value={newItemText}
-          onChange={(e) => setNewItemText(e.target.value)}
-          placeholder="Capture new item..."
-          onKeyPress={(e) => e.key === 'Enter' && addItem()}
-        />
-        <button className="add-btn" onClick={addItem}>Add</button>
+        <div className="processing-capture-row">
+          <input
+            type="text"
+            value={newItemText}
+            onChange={(e) => setNewItemText(e.target.value)}
+            placeholder="Capture new item..."
+            onKeyPress={(e) => e.key === 'Enter' && addItem()}
+          />
+          <button className="add-btn" onClick={addItem}>Add</button>
+        </div>
+        <main>
+          <ul>
+            {filteredItems.map(item => (
+              <li key={item.id}>
+                <span>{item.text}</span>
+                {activeSection === 'inbox' && (
+                  <div className="actions">
+                    <button onClick={() => setProcessingItem(item)}>Process</button>
+                  </div>
+                )}
+                {activeSection !== 'inbox' && activeSection !== 'trash' && (
+                  <button onClick={() => moveItem(item.id, 'trash')}>
+                    Delete
+                  </button>
+                )}
+                {activeSection === 'trash' && (
+                  <button onClick={() => deleteItem(item.id)}>Permanently Delete</button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </main>
       </div>
       <nav>
         {primarySections.map(section => (
@@ -229,28 +253,6 @@ function App() {
           </button>
         ))}
       </div>
-      <main>
-        <ul>
-          {filteredItems.map(item => (
-            <li key={item.id}>
-              <span>{item.text}</span>
-              {activeSection === 'inbox' && (
-                <div className="actions">
-                  <button onClick={() => setProcessingItem(item)}>Process</button>
-                </div>
-              )}
-              {activeSection !== 'inbox' && activeSection !== 'trash' && (
-                <button onClick={() => moveItem(item.id, 'trash')}>
-                  Delete
-                </button>
-              )}
-              {activeSection === 'trash' && (
-                <button onClick={() => deleteItem(item.id)}>Permanently Delete</button>
-              )}
-            </li>
-          ))}
-        </ul>
-      </main>
       {processingItem && (
         <ProcessModal
           item={processingItem}
