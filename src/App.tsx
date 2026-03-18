@@ -184,12 +184,12 @@ function App() {
           <path d="M344 221.5 L365 221.5" />
           <path d="M411 221.5 L458 221.5 L458 231 L509 231" markerEnd="url(#arrow-blue)" />
           <path d="M388 255 L388 300 L499 300" markerEnd="url(#arrow-blue)" />
-          <path d="M388 255 L388 362 L512 362" markerEnd="url(#arrow-blue)" />
-          <path d="M264 245 L264 330" markerEnd="url(#arrow-blue)" />
+          <path d="M388 255 L388 352.5" />
+          <path d="M264 245 L264 330" />
           <path d="M204 352.5 L72 352.5 L72 422 L192 422" markerEnd="url(#arrow-blue)" />
-          <path d="M324 352.5 L420 352.5 L420 362 L512 362" markerEnd="url(#arrow-blue)" />
-          <path d="M264 375 L264 450 L314 450 L314 475" markerEnd="url(#arrow-blue)" />
-          <path d="M192 583 L125 583" markerEnd="url(#arrow-blue)" />
+          <path d="M324 352.5 L512 352.5" markerEnd="url(#arrow-blue)" />
+          <path d="M264 375 L264 475" />
+          <path d="M215 537 L215 583 L125 583" markerEnd="url(#arrow-blue)" />
           <path d="M365 583 L382 583 L382 576 L398 576" markerEnd="url(#arrow-blue)" />
           <path d="M444 598 L444 610 L408.5 610 L408.5 620" markerEnd="url(#arrow-blue)" />
           <path d="M444 598 L444 610 L556 610 L556 620" markerEnd="url(#arrow-blue)" />

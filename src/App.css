@@ -495,29 +495,29 @@
 }
 
 .actionable {
-  top: 198px;
-  left: 184px;
+  top: 220px;
+  left: 210px;
   width: 160px;
   height: 47px;
 }
 
 .process-node {
-  top: 330px;
-  left: 204px;
+  top: 367px;
+  left: 230px;
   width: 120px;
   height: 45px;
 }
 
 .minutes-node {
-  top: 475px;
+  top: 500px;
   left: 190px;
   width: 248px;
   height: 48px;
 }
 
 .project-node {
-  top: 401px;
-  left: 18px;
+  top: 410px;
+  left: 95px;
   width: 174px;
   height: 42px;
 }
@@ -612,13 +612,13 @@
 }
 
 .actionable-yes {
-  top: 265px;
-  left: 250px;
+  top: 294px;
+  left: 268px;
 }
 
 .actionable-no {
-  top: 198px;
-  left: 365px;
+  top: 225px;
+  left: 405px;
 }
 
 .quick-yes {
@@ -654,8 +654,8 @@
 }
 
 .maybe-note {
-  top: 369px;
-  left: 349px;
+  top: 410px;
+  left: 355px;
 }
 
 .set-date-note {
