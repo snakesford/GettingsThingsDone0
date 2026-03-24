@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import './App.css';
 
 export interface Item {
@@ -21,6 +21,32 @@ const sectionLabels: Record<SectionKey, string> = {
   someday: 'Someday',
   trash: 'Trash',
 };
+
+type HotspotConfig = {
+  id: string;
+  label: string;
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  rotate?: number;
+  section?: SectionKey;
+  action?: 'addItem';
+};
+
+const hotspotConfigs: HotspotConfig[] = [
+  { id: 'project', label: 'Project Planning', left: 9.8, top: 46.1, width: 19.4, height: 5.5, section: 'project' },
+  { id: 'trash', label: 'Trash', left: 75.2, top: 24.2, width: 10.6, height: 5.6, section: 'trash' },
+  { id: 'reference', label: 'Reference', left: 74.1, top: 32.4, width: 13.8, height: 5.5, section: 'reference' },
+  { id: 'someday', label: 'Someday', left: 74.3, top: 39.4, width: 14.1, height: 5.5, section: 'someday' },
+  { id: 'do-it', label: 'Hotlist', left: 3.6, top: 60.9, width: 12.9, height: 7.4, rotate: -13, section: 'next' },
+  { id: 'task', label: 'Add task', left: 59.7, top: 61.3, width: 13.1, height: 5.9, action: 'addItem' },
+  { id: 'defer', label: 'Calendar', left: 59.8, top: 70.8, width: 16.3, height: 5.3, section: 'calendar' },
+  { id: 'delegate', label: 'Waiting', left: 77.2, top: 70.8, width: 18.8, height: 5.3, section: 'waiting' },
+  { id: 'calendar', label: 'Calendar', left: 5.1, top: 83.2, width: 21.8, height: 5.4, section: 'calendar' },
+  { id: 'hotlist', label: 'Hotlist', left: 5.1, top: 90.6, width: 15.4, height: 5.1, section: 'next' },
+  { id: 'waiting', label: 'Waiting', left: 71.4, top: 87.1, width: 17.3, height: 5.3, section: 'waiting' },
+];
 
 function ProcessModal({
   item,
@@ -171,53 +197,23 @@ function App() {
 
   const filteredItems = items.filter((item) => item.status === activeSection);
 
+  const handleHotspotClick = (hotspot: HotspotConfig) => {
+    if (hotspot.action === 'addItem') {
+      addItem();
+      return;
+    }
+
+    if (hotspot.section) {
+      setActiveSection(hotspot.section);
+    }
+  };
+
   return (
     <div className="app-shell">
-      <section className="flowchart-card">
-        <svg className="flow-lines" viewBox="0 0 676 843" aria-hidden="true">
-          <defs>
-            <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="#0f79bf" />
-            </marker>
-          </defs>
-          <path d="M108 132 L108 221.5 Q108 221.5 118 221.5 L184 221.5" markerEnd="url(#arrow-blue)" />
-          <path d="M344 221.5 L365 221.5" />
-          <path d="M411 221.5 L458 221.5 L458 231 L509 231" markerEnd="url(#arrow-blue)" />
-          <path d="M388 255 L388 300 L499 300" markerEnd="url(#arrow-blue)" />
-          <path d="M388 255 L388 352.5" />
-          <path d="M264 245 L264 330" />
-          <path d="M204 352.5 L72 352.5 L72 422 L192 422" markerEnd="url(#arrow-blue)" />
-          <path d="M324 352.5 L512 352.5" markerEnd="url(#arrow-blue)" />
-          <path d="M264 375 L264 475" />
-          <path d="M215 537 L215 583 L125 583" markerEnd="url(#arrow-blue)" />
-          <path d="M365 583 L382 583 L382 576 L398 576" markerEnd="url(#arrow-blue)" />
-          <path d="M444 598 L444 610 L408.5 610 L408.5 620" markerEnd="url(#arrow-blue)" />
-          <path d="M444 598 L444 610 L556 610 L556 620" markerEnd="url(#arrow-blue)" />
-          <path d="M408.5 662 L408.5 730.5 L225 730.5" markerEnd="url(#arrow-blue)" />
-          <path d="M381 662 L381 796.5 L178 796.5" markerEnd="url(#arrow-blue)" />
-          <path d="M556 662 L556 797.5 L458 797.5" markerEnd="url(#arrow-blue)" />
-        </svg>
-
-        <div className="desk-clutter" aria-hidden="true">
-          <span className="desk-doodle doodle-hook" />
-          <span className="desk-doodle doodle-loop" />
-          <span className="paper paper-yellow" />
-          <span className="paper paper-blue" />
-          <span className="paper paper-white" />
-          <span className="paper paper-pink" />
-          <span className="paper paper-grid" />
-          <span className="desk-card desk-phone">
-            <span className="phone-screen" />
-            <span className="phone-button" />
-          </span>
-          <span className="desk-card desk-social">
-            <span className="social-f">f</span>
-          </span>
-          <span className="desk-card desk-inbox">INBOX</span>
-          <span className="clip clip-a" />
-          <span className="clip clip-b" />
-        </div>
-
+      <section
+        className="flowchart-card"
+        style={{ backgroundImage: 'url(/gtd-3.png)' }}
+      >
         <div className="funnel-wrap">
           <button
             type="button"
@@ -246,125 +242,29 @@ function App() {
           </div>
         </div>
 
-        <h1 className="processing-title">
-          <span>PROCESSiNG</span> your tasks
-        </h1>
+        <div className="hotspot-layer" aria-label="Flowchart controls">
+          {hotspotConfigs.map((hotspot) => {
+            const isActive = hotspot.section ? activeSection === hotspot.section : false;
+            const style = {
+              left: `${hotspot.left}%`,
+              top: `${hotspot.top}%`,
+              width: `${hotspot.width}%`,
+              height: `${hotspot.height}%`,
+              transform: hotspot.rotate ? `rotate(${hotspot.rotate}deg)` : undefined,
+            } satisfies CSSProperties;
 
-        <button type="button" className="flow-node prompt actionable">
-          Is it actionable?
-        </button>
-        <span className="decision-badge badge-yes actionable-yes">Yes</span>
-        <span className="decision-badge badge-no actionable-no">No</span>
-
-        <button
-          type="button"
-          className={`flow-node section-node project-node ${activeSection === 'project' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('project')}
-        >
-          <span className="node-icon icon-list" aria-hidden="true" />
-          <span>Project Planning</span>
-        </button>
-
-        <button type="button" className="flow-node prompt process-node">
-          Process it.
-        </button>
-
-        <button
-          type="button"
-          className={`flow-node section-node trash-node ${activeSection === 'trash' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('trash')}
-        >
-          <span className="node-icon icon-trash" aria-hidden="true" />
-          <span>Trash</span>
-        </button>
-
-        <button
-          type="button"
-          className={`flow-node section-node reference-node ${activeSection === 'reference' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('reference')}
-        >
-          <span className="node-icon icon-clock icon-clock--outlined" aria-hidden="true" />
-          <span>Reference</span>
-        </button>
-
-        <button
-          type="button"
-          className={`flow-node section-node someday-node ${activeSection === 'someday' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('someday')}
-        >
-          <span className="node-icon icon-flag" aria-hidden="true" />
-          <span>Someday</span>
-        </button>
-
-        <span className="note maybe-note">Eh, maybe later.</span>
-
-        <button type="button" className="flow-node prompt minutes-node">
-          Can you do it in 2 minutes?
-        </button>
-        <span className="decision-badge badge-yes quick-yes">Yes</span>
-        <span className="decision-badge badge-no quick-no">No</span>
-
-        <button
-          type="button"
-          className={`do-it-sticker ${activeSection === 'next' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('next')}
-        >
-          DO iT!
-        </button>
-
-        <button type="button" className="flow-node task-node" onClick={addItem}>
-          <span className="task-plus">+</span>
-          Task
-        </button>
-
-        <button
-          type="button"
-          className={`flow-node section-node defer-node ${activeSection === 'calendar' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('calendar')}
-        >
-          <span className="node-icon icon-clock" aria-hidden="true" />
-          <span>Defer it.</span>
-        </button>
-
-        <button
-          type="button"
-          className={`flow-node section-node delegate-node ${activeSection === 'waiting' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('waiting')}
-        >
-          <span className="node-icon icon-people" aria-hidden="true" />
-          <span>Delegate it.</span>
-        </button>
-
-        <button
-          type="button"
-          className={`flow-node section-node calendar-node ${activeSection === 'calendar' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('calendar')}
-        >
-          <span className="node-icon icon-calendar" aria-hidden="true" />
-          <span>Calendar</span>
-        </button>
-
-        <button
-          type="button"
-          className={`flow-node section-node hotlist-node ${activeSection === 'next' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('next')}
-        >
-          <span className="node-icon icon-fire" aria-hidden="true" />
-          <span>Hotlist</span>
-        </button>
-
-        <button
-          type="button"
-          className={`flow-node section-node waiting-node ${activeSection === 'waiting' ? 'is-active' : ''}`}
-          onClick={() => setActiveSection('waiting')}
-        >
-          <span className="node-icon icon-clock icon-clock--outlined" aria-hidden="true" />
-          <span>Waiting</span>
-        </button>
-
-        <span className="note set-date-note">Set a date.</span>
-        <span className="note do-next-note">Do it next.</span>
-        <span className="note cant-do-note">Can&apos;t do it yet.</span>
+            return (
+              <button
+                key={hotspot.id}
+                type="button"
+                aria-label={hotspot.label}
+                className={`overlay-button ${isActive ? 'is-active' : ''} ${hotspot.rotate ? 'is-rotated' : ''}`}
+                style={style}
+                onClick={() => handleHotspotClick(hotspot)}
+              />
+            );
+          })}
+        </div>
       </section>
 
       <section className="items-panel">
